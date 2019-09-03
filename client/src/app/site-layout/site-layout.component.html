@@ -1,0 +1,41 @@
+<mat-toolbar class="mat-elevation-z5" color="primary">
+  <button
+    class="menu__button"
+    mat-button
+    [routerLink]="['/catalog']"
+    routerLinkActive="mat-accent"
+  >
+    CATALOG
+  </button>
+  <button
+    class="menu__button"
+    mat-button
+    [routerLink]="['/favorite']"
+    routerLinkActive="mat-accent"
+  >
+    FAVORITE
+  </button>
+
+  <span class="menu__fill-remaining-space"></span>
+  <button mat-button [routerLink]="['/cart']" routerLinkActive="mat-accent">
+    <mat-icon
+      class="menu__shopping_cart-icon"
+      aria-hidden="false"
+      aria-label="shopping_cart"
+      >shopping_cart</mat-icon
+    >
+  </button>
+
+  <form class="menu__search-form">
+    <mat-form-field class="menu__search-full-width">
+      <input type="search" matInput />
+    </mat-form-field>
+  </form>
+  <mat-icon class="menu__search-icon" aria-hidden="false" aria-label="search"
+    >search</mat-icon
+  >
+  <button mat-stroked-button (click)="openSignUpDialog()">Sign up</button>
+</mat-toolbar>
+<main class="content">
+  <router-outlet (signInClick)="onSignInClick($event)"></router-outlet>
+</main>

@@ -1,0 +1,20 @@
+.form-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+margin-bottom: 15px;
+}
+.form-content > * {
+    width: 100%;
+  }
+.mat-dialog-content {
+    overflow-y: hidden !important;
+}
+
+.dialog__footer {
+    margin-bottom: 1px;
+   font-size: 18px;
+}
+.dialog__footer-button {
+    margin: 0 5px;
+}

@@ -1,0 +1,44 @@
+<div mat-dialog-content>
+  <div [formGroup]="form" class="form-content" (ngSubmit)="onSubmit()">
+    <h1 mat-dialog-title>Sign up</h1>
+    <mat-form-field>
+      <input
+        matInput
+        formControlName="firstName"
+        id="firstName"
+        type="text"
+        placeholder="Inter your name"
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        formControlName="email"
+        id="email"
+        type="email"
+        placeholder="Inter your email"
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        formControlName="password"
+        id="password"
+        type="password"
+        placeholder="Create your email"
+      />
+    </mat-form-field>
+
+    <div mat-dialog-actions  align="end">
+      <button type="submit" mat-raised-button color="primary">
+        Sign up
+      </button>
+      <button mat-button mat-dialog-close>Cancel</button>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <div mat-dialog-actions align="center" class='dialog__footer'>
+    <span>Already have account?</span>
+    <button mat-button (click)="clickSignInButton($event)" mat-dialog-close mat-stroked-button color="primary" class='dialog__footer-button'>Sign in</button>
+  </div>
+</div>

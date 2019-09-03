@@ -1,0 +1,19 @@
+
+.catalog {
+    display: flex;
+    &__filter-wrapper{
+        width: 15%;
+    }
+    &__filter{
+        margin-top: 5%;
+        height: 70vh;
+    }
+    &__card-wrapper {
+        width: 85%;
+        display: flex;
+    }
+    &__product-card{
+        width: 20%;
+        margin: 2.5%
+    }
+}
