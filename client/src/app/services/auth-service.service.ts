@@ -1,34 +1,36 @@
-import { Injectable } from '@angular/core';
-import { User } from '../models';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
-
+import { Injectable } from "@angular/core";
+import { User } from "../models";
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { tap } from "rxjs/operators";
+import * as jwt_decode from "jwt-decode";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class AuthServiceService {
-
   private token = null;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   login(user: User): Observable<{ token: string }> {
-    return this.http.post<{ token: string }>('/api/auth/login', user)
-      .pipe(tap(({ token }) => {
-        localStorage.setItem('auth-token', token);
-        this.setToken(token);
-      }));
+    return this.http
+      .post<{ token: string }>("http://localhost:5000/auth/login", user)
+      .pipe(
+        tap(({ token }) => {
+          localStorage.setItem("auth-token", token);
+          this.setToken(token);
+        })
+      );
   }
 
   register(user: User): Observable<User> {
-    return this.http.post<User>('/api/auth/register', user);
+    console.log(user);
+    return this.http.post<User>("http://localhost:5000/auth/register", user);
   }
 
   isAuth(): boolean {
-    return true
-    //return !!this.token;
+    return !!this.token;
   }
 
   logout() {
@@ -44,4 +46,7 @@ export class AuthServiceService {
     return this.token;
   }
 
+  decode(): User {
+    return jwt_decode(localStorage.getItem("auth-token"));
+  }
 }

@@ -21,12 +21,12 @@ export class SignupSigninDialogComponent implements OnInit {
     private route: ActivatedRoute
   ) {}
 
-  public signUpMode = true;
+  public signUpMode = false;
 
   ngOnInit() {
     this.form = new FormGroup({
       firstName: new FormControl(null, Validators.required),
-      email: new FormControl(null, [Validators.required, Validators.email]),
+      email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl(null, [
         Validators.required,
         Validators.minLength(3)
@@ -39,5 +39,11 @@ export class SignupSigninDialogComponent implements OnInit {
       isSignUp: this.signUpMode,
       formValue: this.form.value
     });
+  }
+
+  getErrorMessage() {
+    return this.form.hasError('required') ? 'You must enter a value' :
+        this.form.value.email.hasError('email') ? 'Not a valid email' :
+            '';
   }
 }

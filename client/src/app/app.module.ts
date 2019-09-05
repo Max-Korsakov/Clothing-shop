@@ -23,6 +23,12 @@ import { SignupSigninDialogComponent } from './signup-signin-dialog/signup-signi
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDividerModule } from '@angular/material/divider';
+import { LoaderComponent } from './loader/loader.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatSelectModule} from '@angular/material/select';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -35,7 +41,8 @@ import { MatDividerModule } from '@angular/material/divider';
     SiteLayoutComponent,
     NotFoundPageComponent,
     MaterialDialogComponent,
-    SignupSigninDialogComponent
+    SignupSigninDialogComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,
@@ -52,7 +59,12 @@ import { MatDividerModule } from '@angular/material/divider';
     FormsModule,
     ReactiveFormsModule,
     MatFormFieldModule,
-    MatDividerModule
+    MatDividerModule,
+    MatProgressSpinnerModule,
+    MatRadioModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    MatSnackBarModule
   ],
   entryComponents: [MaterialDialogComponent, SignupSigninDialogComponent],
   providers: [],

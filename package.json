@@ -1,0 +1,40 @@
+{
+  "name": "shop",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "concurrently": "^4.1.2",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mongoose": "^5.6.12",
+    "morgan": "^1.9.1",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.2"
+  },
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve ./client --proxy-config proxy.json",
+    "build": "ng build",
+    "test": "ng test",
+    "lint": "ng lint",
+    "e2e": "ng e2e",
+    "server": "nodemon index",
+    "dev": "concurrently \"npm run server\" \"npm run start\" "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Max-Korsakov/Clothing-shop.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Max-Korsakov/Clothing-shop/issues"
+  },
+  "homepage": "https://github.com/Max-Korsakov/Clothing-shop#readme"
+}
