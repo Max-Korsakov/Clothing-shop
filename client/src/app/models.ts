@@ -15,3 +15,18 @@ export interface PopupTextContent {
     confirm?: string;
   };
 }
+
+export interface CatalogItem {
+  id: string;
+  section: string;
+  type: string;
+  brand: string;
+  name: string;
+  discription: string;
+  color: string[];
+  gender: string;
+  size: string[];
+  img: string;
+  price: number;
+  availability: boolean;
+}

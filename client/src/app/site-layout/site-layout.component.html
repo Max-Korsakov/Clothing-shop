@@ -34,8 +34,19 @@
   <mat-icon class="menu__search-icon" aria-hidden="false" aria-label="search"
     >search</mat-icon
   >
-  <button mat-stroked-button (click)="openSignUpDialog()">Sign up</button>
+  <span *ngIf="activeUser">Hello, {{ activeUser.firstName }}</span>
+  <button *ngIf="!activeUser" mat-stroked-button (click)="openSignUpDialog()">
+    Sign in
+  </button>
+  <button
+    class="logout-button"
+    *ngIf="activeUser"
+    mat-stroked-button
+    (click)="logOut()"
+  >
+    Log out
+  </button>
 </mat-toolbar>
 <main class="content">
-  <router-outlet (signInClick)="onSignInClick($event)"></router-outlet>
+  <router-outlet></router-outlet>
 </main>

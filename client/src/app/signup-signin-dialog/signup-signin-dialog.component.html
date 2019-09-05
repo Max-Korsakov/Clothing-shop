@@ -1,5 +1,5 @@
-<div mat-dialog-content>
-  <div [formGroup]="form" class="form-content" (ngSubmit)="onSubmit()">
+<div *ngIf = 'signUpMode' mat-dialog-content>
+  <form [formGroup]="form" class="form-content" (ngSubmit)="onSubmit()">
     <h1 mat-dialog-title>Sign up</h1>
     <mat-form-field>
       <input
@@ -17,7 +17,9 @@
         id="email"
         type="email"
         placeholder="Inter your email"
+        required
       />
+      <mat-error *ngIf="form.value.email.invalid">{{getErrorMessage()}}</mat-error>
     </mat-form-field>
     <mat-form-field>
       <input
@@ -25,8 +27,9 @@
         formControlName="password"
         id="password"
         type="password"
-        placeholder="Create your email"
+        placeholder="Create your password"
       />
+      <mat-hint>Field is required</mat-hint>
     </mat-form-field>
 
     <div mat-dialog-actions  align="end">
@@ -35,10 +38,47 @@
       </button>
       <button mat-button mat-dialog-close>Cancel</button>
     </div>
+  </form>
+</div>
+
+
+  <div mat-dialog-content *ngIf = '!signUpMode' >
+    <form [formGroup]="form" class="form-content" (ngSubmit)="onSubmit()">
+      <h1 mat-dialog-title>Sign in</h1>
+    
+      <mat-form-field>
+        <input
+          matInput
+          formControlName="email"
+          id="email"
+          type="email"
+          placeholder="Inter your email"
+        />
+        <mat-hint>Field is required</mat-hint>
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          matInput
+          formControlName="password"
+          id="password"
+          type="password"
+          placeholder="Enter your password"
+        />
+        <mat-hint>Field is required</mat-hint>
+      </mat-form-field>
+  
+      <div mat-dialog-actions  align="end">
+        <button type="submit" mat-raised-button color="primary">
+          Sign in
+        </button>
+        <button mat-button mat-dialog-close>Cancel</button>
+      </div>
+    </form>
   </div>
   <mat-divider></mat-divider>
   <div mat-dialog-actions align="center" class='dialog__footer'>
-    <span>Already have account?</span>
-    <button mat-button (click)="clickSignInButton($event)" mat-dialog-close mat-stroked-button color="primary" class='dialog__footer-button'>Sign in</button>
+    <span *ngIf = 'signUpMode'>Already have an account?</span>
+    <span *ngIf = '!signUpMode'>Have no an account?Create!</span>
+    <button mat-button (click)="signUpMode = !signUpMode" mat-stroked-button color="primary" class='dialog__footer-button'>{{signUpMode ? 'Sign in' : 'Sign up'}}</button>
   </div>
-</div>
+
