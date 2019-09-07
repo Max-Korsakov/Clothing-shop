@@ -14,9 +14,9 @@ module.exports.login = async function (req, res) {
         if (passwordResult) {
             const token = jwt.sign({
                 email: candidate.email,
-                userId: candidate._id,
+                id: candidate._id,
                 firstName: candidate.firstName,
-                cartItems: candidate.cartItems.length,
+                cartItems: candidate.cartItems,
               
             }, keys.jwt, { expiresIn: 60 * 60 })
             res.status(200).json({
@@ -42,7 +42,6 @@ module.exports.register = async function (req, res) {
             message: "Данный email уже зарегистрирован."
         })
     } else {
-        console.log('hi')
         const salt = bcrypt.genSaltSync(10)
         const password = req.body.password
         const users = new Users({

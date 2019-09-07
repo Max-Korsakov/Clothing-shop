@@ -1,1 +1,71 @@
-<p>product works!</p>
+<div class="item">
+  
+
+  <div *ngIf="catalogItem; else loader" class="item__card-wrapper">
+        <div class="item__buttons-wrapper">
+    
+                <button mat-button class='product__button' (click)="backToCatalog()">TO CATALOG</button>
+                <button mat-button class='product__button' (click)="addToFavorite(catalogItem._id)">
+                  TO FAVORITE
+                </button>
+                <button
+                class='product__button'
+                  mat-stroked-button
+                  (click)="
+                    addToCart(catalogItem._id, sizeSelect.value, colorSelect.value);
+                    openSnackBar(catalogItem.name)
+                  "
+                  color="primary"
+                >
+                  TO CART
+                </button>
+              </div>
+
+
+    <mat-card class="item__product-card">
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>{{ catalogItem.name }}</mat-card-title>
+        <mat-card-subtitle>{{ catalogItem.brand }}</mat-card-subtitle>
+      </mat-card-header>
+      <img
+        mat-card-image
+        src="{{ catalogItem.img }}"
+        alt="Photo of {{ catalogItem.name }}"
+      />
+      <mat-card-content>
+        <p>
+          {{ catalogItem.discription }}
+        </p>
+        <div class="item__product-card-select-wrapper">
+          <mat-form-field class="item__product-card-sizeselect">
+            <mat-label>Size</mat-label>
+            <mat-select #sizeSelect>
+              <mat-option *ngFor="let size of catalogItem.size" [value]="size">
+                {{ size }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="catalog__product-card-colorselect">
+            <mat-label>Color</mat-label>
+            <mat-select #colorSelect>
+              <mat-option
+                *ngFor="let color of catalogItem.color"
+                [value]="color"
+              >
+                {{ color }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+
+  <ng-template #loader>
+    <div class="item__loader-wrapper">
+      <app-loader></app-loader>
+    </div>
+  </ng-template>
+</div>

@@ -29,6 +29,8 @@ import {MatRadioModule} from '@angular/material/radio';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatBadgeModule} from '@angular/material/badge';
 
 @NgModule({
   declarations: [
@@ -64,7 +66,9 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatRadioModule,
     MatSelectModule,
     MatCheckboxModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatButtonToggleModule,
+    MatBadgeModule
   ],
   entryComponents: [MaterialDialogComponent, SignupSigninDialogComponent],
   providers: [],

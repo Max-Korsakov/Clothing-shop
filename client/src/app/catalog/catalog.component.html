@@ -39,6 +39,9 @@
         <div mat-card-avatar class="example-header-image"></div>
         <mat-card-title>{{ item.name }}</mat-card-title>
         <mat-card-subtitle>{{ item.brand }}</mat-card-subtitle>
+        <button mat-stroked-button (click)="openItemDetails(item._id)">
+          DETAILS
+        </button>
       </mat-card-header>
       <img mat-card-image src="{{ item.img }}" alt="Photo of {{ item.name }}" />
       <mat-card-content>
@@ -67,12 +70,17 @@
       <mat-card-actions align="center">
         <button
           mat-stroked-button
-          (click)="addToCart(item.id, sizeSelect.value, colorSelect.value); openSnackBar(item.name)"
+          (click)="
+            addToCart(item._id, sizeSelect.value, colorSelect.value);
+            openSnackBar(item.name)
+          "
           color="primary"
         >
           TO CART
         </button>
-        <button mat-button (click)="addToFavorite(item.id)">TO FAVORITE</button>
+        <button mat-button (click)="addToFavorite(item._id)">
+          TO FAVORITE
+        </button>
       </mat-card-actions>
     </mat-card>
   </div>

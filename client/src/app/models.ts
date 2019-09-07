@@ -3,9 +3,11 @@ export interface User {
   email: string;
   password: string;
   firstName: number;
-  cartItems: string[];
-  favoriteItems: string[];
+  newCartItems?:Array<string>;
+  cartItems: Array<string>;
+  favoriteItems: Array<string>;
 }
+
 
 export interface PopupTextContent {
   title: string;
@@ -17,7 +19,7 @@ export interface PopupTextContent {
 }
 
 export interface CatalogItem {
-  id: string;
+  _id: string;
   section: string;
   type: string;
   brand: string;

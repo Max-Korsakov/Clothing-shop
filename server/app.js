@@ -1,6 +1,8 @@
 const express = require('express');
 const passport = require('passport')
 const authRoutes = require('./routes/auth')
+const catalogRoutes = require('./routes/catalog')
+const cartRoutes = require('./routes/cart')
 const bodyParser = require('body-parser')
 
 const cors = require('cors')
@@ -21,6 +23,7 @@ app.use(bodyParser.json())
 app.use(passport.initialize())
 require('./middleware/passport')(passport)
 app.use('/auth', authRoutes)
-
+app.use('/catalog', catalogRoutes)
+app.use('/cart', cartRoutes)
 
 module.exports = app;

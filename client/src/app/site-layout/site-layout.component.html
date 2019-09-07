@@ -19,6 +19,8 @@
   <span class="menu__fill-remaining-space"></span>
   <button mat-button [routerLink]="['/cart']" routerLinkActive="mat-accent">
     <mat-icon
+      matBadge="{{ numberItemsInTheCart }}"
+      matBadgeColor="warn"
       class="menu__shopping_cart-icon"
       aria-hidden="false"
       aria-label="shopping_cart"
@@ -34,13 +36,17 @@
   <mat-icon class="menu__search-icon" aria-hidden="false" aria-label="search"
     >search</mat-icon
   >
-  <span *ngIf="activeUser">Hello, {{ activeUser.firstName }}</span>
-  <button *ngIf="!activeUser" mat-stroked-button (click)="openSignUpDialog()">
+  <span *ngIf="activeUser.id">Hello, {{ activeUser.firstName }}</span>
+  <button
+    *ngIf="!activeUser.id"
+    mat-stroked-button
+    (click)="openSignUpDialog()"
+  >
     Sign in
   </button>
   <button
     class="logout-button"
-    *ngIf="activeUser"
+    *ngIf="activeUser.id"
     mat-stroked-button
     (click)="logOut()"
   >

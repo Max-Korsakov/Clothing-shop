@@ -1,1 +1,59 @@
-<p>cart works!</p>
+<div class="catalog" *ngIf="isLoadOver">
+  <div *ngIf="newCartItem as items; else loader" class="catalog__card-wrapper">
+    <mat-card *ngFor="let item of items" class="catalog__product-card">
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>{{ item.name }}</mat-card-title>
+        <mat-card-subtitle>{{ item.brand }}</mat-card-subtitle>
+        <button mat-stroked-button (click)="openItemDetails(item._id)">
+          DETAILS
+        </button>
+      </mat-card-header>
+      <img mat-card-image src="{{ item.img }}" alt="Photo of {{ item.name }}" />
+      <mat-card-content>
+        <p>
+          {{ item.discription }}
+        </p>
+        <div class="catalog__product-card-select-wrapper">
+          <mat-form-field class="catalog__product-card-sizeselect">
+            <mat-label>Size</mat-label>
+            <mat-select #sizeSelect>
+              <mat-option *ngFor="let size of item.size" [value]="size">
+                {{ size }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="catalog__product-card-colorselect">
+            <mat-label>Color</mat-label>
+            <mat-select #colorSelect>
+              <mat-option *ngFor="let color of item.color" [value]="color">
+                {{ color }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+      <mat-card-actions align="center">
+        <button
+          mat-stroked-button
+          (click)="
+            addToCart(item._id, sizeSelect.value, colorSelect.value);
+            openSnackBar(item.name)
+          "
+          color="primary"
+        >
+          TO CART
+        </button>
+        <button mat-button (click)="addToFavorite(item._id)">
+          TO FAVORITE
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  <ng-template #loader>
+    <div class="catalog__loader-wrapper">
+      <app-loader></app-loader>
+    </div>
+  </ng-template>
+</div>
+<div *ngIf="!isLoadOver">Cart is empty</div>

@@ -4,26 +4,35 @@ import { User } from "../models";
 import { FilterService } from "../services/filter.service";
 import { CatalogItem } from "../models";
 import { AuthServiceService } from "../services/auth-service.service";
+import { Router, ActivatedRoute } from "@angular/router";
+import { UserServiceService } from "../services/user-service.service";
+import { Observable, Subscription } from "rxjs";
 import {
   MatSnackBar,
   MatSnackBarConfig,
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition
 } from "@angular/material/snack-bar";
+import { HttpServiceService } from "../services/http-service.service";
 @Component({
   selector: "app-site-layout",
   templateUrl: "./site-layout.component.html",
   styleUrls: ["./site-layout.component.scss"]
 })
 export class SiteLayoutComponent implements OnInit {
+  id: string;
   constructor(
     private popupService: PopupServiceService,
     private filterService: FilterService,
-    private authService: AuthServiceService
-  ) {}
+    private authService: AuthServiceService,
+    private userService: UserServiceService,
+    private route: ActivatedRoute,
+    private httpService: HttpServiceService
+  ) {
+    this.id = route.snapshot.params["id"];
+  }
   public viewItemsArray: any;
   public activeUser: User = null;
-
   public message: string = "User was created";
   public actionButtonLabel: string = "Ok";
   public action: boolean = false;
@@ -31,16 +40,12 @@ export class SiteLayoutComponent implements OnInit {
   public autoHide: number = 1500;
   public horizontalPosition: MatSnackBarHorizontalPosition = "left";
   public verticalPosition: MatSnackBarVerticalPosition = "bottom";
-  ngOnInit() {
-    this.setActiveUser();
-  }
 
-  public setActiveUser() {
-    if (localStorage.getItem("auth-token")) {
-      this.activeUser = this.authService.decode();
-    } else {
-      this.activeUser = null;
-    }
+  public numberItemsInTheCart: number = null;
+  ngOnInit() {
+    this.userService.setActiveUser();
+    this.activeUser = this.userService.getUserData();
+    console.log(this.activeUser);
   }
 
   public filterCatalogItems(items: CatalogItem[]) {
@@ -58,7 +63,7 @@ export class SiteLayoutComponent implements OnInit {
 
   public openSignUpDialog(): void {
     this.popupService.openSignUpDialog().subscribe(data => {
-      if (data.isSignUp) {
+      if (data && data.isSignUp) {
         this.authService.register(data.formValue).subscribe(
           data => {
             this.openSnackBar(this.message);
@@ -67,12 +72,17 @@ export class SiteLayoutComponent implements OnInit {
             console.log(error.error.message);
           }
         );
-      } else {
+      } else if (data) {
         this.authService.login(data.formValue).subscribe(
           () => {
-            console.log(data);
-            this.activeUser = this.authService.decode();
-            this.openSnackBar("Hello, " + this.activeUser.firstName);
+            this.userService.setActiveUser();
+            this.activeUser = this.userService.getUserData();
+            this.openSnackBar(
+              "Hello, " + this.userService.getUserData().firstName
+            );
+            this.httpService
+              .getCartItems(this.userService.getUserData().id)
+              .subscribe(items => console.log(items));
           },
           error => {
             console.log(error.error.message);
@@ -84,6 +94,9 @@ export class SiteLayoutComponent implements OnInit {
 
   public logOut() {
     this.authService.logout();
-    this.activeUser = null;
+    this.activeUser.id = null;
+    this.activeUser.email = null;
+    this.activeUser.password = null;
+    this.activeUser.firstName = null;
   }
 }

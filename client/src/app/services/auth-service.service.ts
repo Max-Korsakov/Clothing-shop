@@ -30,7 +30,7 @@ export class AuthServiceService {
   }
 
   isAuth(): boolean {
-    return !!this.token;
+    return !!localStorage.getItem("auth-token");
   }
 
   logout() {
