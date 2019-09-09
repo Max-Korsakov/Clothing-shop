@@ -1,9 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { CatalogItem } from "../models";
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { UserServiceService } from "../services/user-service.service";
 import { FilterService } from "../services/filter.service";
 import { Router, ActivatedRoute } from "@angular/router";
 import { Observable, Subscription } from "rxjs";
+import { NgModel} from '@angular/forms';
 import { HttpServiceService } from "../services/http-service.service";
 import {
   MatSnackBar,
@@ -24,7 +26,9 @@ export class CatalogComponent implements OnInit {
     private httpService: HttpServiceService,
     private popupService: PopupServiceService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+
+
   ) {}
   message: string = " was added to cart";
   actionButtonLabel: string = "Ok";
@@ -34,11 +38,32 @@ export class CatalogComponent implements OnInit {
   horizontalPosition: MatSnackBarHorizontalPosition = "left";
   verticalPosition: MatSnackBarVerticalPosition = "bottom";
 
-  public catalog: any;
+  public gender: any
+  public brand: any
+  public type: any
+  public color: any
+  public size: any
+  public minPrice: any
+  public maxPrice: any
 
+  public catalog: any;
+  public selectedProperties: any ={}
+  public properties: any = {
+    brand: ['All'],
+    type: ['All'],
+    color: ['All'],
+    gender: ['All'],
+    size: ['All']
+  };
   ngOnInit() {
     this.httpService.getItems().subscribe(data => {
-      this.catalog = data;
+      this.catalog = data.items;
+      this.properties.gender = [...this.properties.gender, ...data.filterProps.filterGender];
+      this.properties.brand = [...this.properties.brand, ...data.filterProps.filterBrands];
+      this.properties.type = [...this.properties.type, ...data.filterProps.filterTypes];
+      this.properties.color = [...this.properties.color, ...data.filterProps.filterColors];
+      this.properties.size = [...this.properties.size, ...data.filterProps.filterSizes];
+
     });
   }
 
@@ -51,14 +76,20 @@ export class CatalogComponent implements OnInit {
     this.popupService.openSnackBar(message, config);
   }
 
-  public addToCart(id, itemSize, itemColor) {
+  public addToCart(id, itemSize, itemColor, itemName) {
     this.userService.addItemToCart({
       itemId: id
     });
+    this.openSnackBar(itemName + this.message);
   }
 
-  public filterItems() {
-    this.catalog = this.filterService.filterItems(this.catalog);
+  public filterItems(gender,brand,type,color,size,maxPrice) {
+if(!gender && !brand && !type && !color && !size &&!maxPrice) {
+  this.openSnackBar('Choose filter conditions');
+} else {
+   this.httpService.getFilteredItems({gender: gender,brand: brand,type: type,color: color,size: size,maxPrice: maxPrice}).subscribe( data =>{
+    this.catalog = data})}
+   
   }
 
   public addToFavorite(id) {

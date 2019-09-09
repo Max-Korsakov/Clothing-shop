@@ -31,6 +31,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatBadgeModule} from '@angular/material/badge';
+import {MatSliderModule} from '@angular/material/slider';
+import 'hammerjs';
 
 @NgModule({
   declarations: [
@@ -68,7 +70,8 @@ import {MatBadgeModule} from '@angular/material/badge';
     MatCheckboxModule,
     MatSnackBarModule,
     MatButtonToggleModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatSliderModule
   ],
   entryComponents: [MaterialDialogComponent, SignupSigninDialogComponent],
   providers: [],

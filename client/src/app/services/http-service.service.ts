@@ -9,8 +9,22 @@ import { UserServiceService } from "../services/user-service.service";
 export class HttpServiceService {
   constructor(private http: HttpClient) {}
 
-  getItems(): Observable<CatalogItem[]> {
-    return this.http.get<CatalogItem[]>("http://localhost:5000/catalog");
+  getItems(): Observable<any> {
+    return this.http.get<any>("http://localhost:5000/catalog");
+  }
+
+  getFilteredItems(filterData): Observable<any> {
+    const filterParams = JSON.stringify(filterData);
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json"
+      })
+    };
+    return this.http.post<any>(
+      "http://localhost:5000/catalog",
+      filterParams,
+      httpOptions
+    );
   }
 
   getById(id: string): Observable<CatalogItem> {

@@ -1,4 +1,4 @@
-<mat-toolbar class="mat-elevation-z5" color="primary">
+<mat-toolbar class="mat-elevation-z5 menu" color="primary">
   <button
     class="menu__button"
     mat-button
@@ -19,6 +19,7 @@
   <span class="menu__fill-remaining-space"></span>
   <button mat-button [routerLink]="['/cart']" routerLinkActive="mat-accent">
     <mat-icon
+      [matBadgeHidden]="!numberItemsInTheCart"
       matBadge="{{ numberItemsInTheCart }}"
       matBadgeColor="warn"
       class="menu__shopping_cart-icon"
@@ -53,6 +54,6 @@
     Log out
   </button>
 </mat-toolbar>
-<main class="content">
+<main class="content-wrapper">
   <router-outlet></router-outlet>
 </main>

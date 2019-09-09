@@ -1,14 +1,20 @@
 
 .catalog {
     display: flex;
-    &__filter-wrapper{
-        width: 15%;
-    }
+
     &__filter{
+      display: flex;
+      flex-direction: column;
+      width: 12%;
         margin-top: 5%;
-        height: 70vh;
+        height: auto;
+        overflow: hidden;
+        position: fixed;
+      
     }
     &__card-wrapper {
+      margin-top: 5%;
+      margin-left: 15%;
         width: 85%;
         display: flex;
         flex-flow: row wrap;
@@ -16,8 +22,9 @@
     &__product-card{
       display: flex;
       flex-direction: column;
-       width: 20%;
-       margin: 1%;
+      width: 20%;
+     
+       margin:5px;
         align-content: space-between;
         justify-content: space-around;
         height: auto;
@@ -45,7 +52,28 @@
       justify-content: space-around;
       
     }
+    &__filter-section {
+margin: 10px 0;
+    }
+    &__filter-section_label {
+
+    }
+    &__filter-radio_group {
+      display: flex;
+      flex-direction: column;
+    }
+    &__filter-radio-button {
+      margin: 5px;
+    }
+    &__filter-select {
+      width: 100%;
+    }
+ 
   
+}
+
+mat-slider {
+  width: 100%;
 }
 
 .example-header-image {

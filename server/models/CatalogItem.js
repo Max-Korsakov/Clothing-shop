@@ -2,10 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const itemSchema = new Schema({
-    section: {
-        type: String,
-        required: true,   
-    },
+
     type:{
         type: String,
         required: true

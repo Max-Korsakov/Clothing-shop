@@ -20,7 +20,6 @@ export interface PopupTextContent {
 
 export interface CatalogItem {
   _id: string;
-  section: string;
   type: string;
   brand: string;
   name: string;

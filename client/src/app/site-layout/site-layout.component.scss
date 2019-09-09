@@ -22,3 +22,9 @@
 .logout-button {
   margin: 0 15px;
 }
+mat-toolbar {
+  position: fixed ;
+  z-index: 999;
+}
+.content-wrapper {
+}

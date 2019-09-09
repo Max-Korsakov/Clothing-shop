@@ -7,7 +7,7 @@ const router = express.Router();
 router.get('/',controller.getAll)
 router.get('/set',controller.setItem)
 router.get('/:id', controller.getItemById)
-router.post('/filter', controller.getFiltered)
+router.post('/', controller.getFiltered)
 
 
 module.exports = router;

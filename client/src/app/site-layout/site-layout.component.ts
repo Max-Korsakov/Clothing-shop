@@ -45,7 +45,9 @@ export class SiteLayoutComponent implements OnInit {
   ngOnInit() {
     this.userService.setActiveUser();
     this.activeUser = this.userService.getUserData();
-    console.log(this.activeUser);
+    this.userService.foo.subscribe( data => {
+      this.numberItemsInTheCart = data.cartItems.length + data.newCartItems.length;
+    })
   }
 
   public filterCatalogItems(items: CatalogItem[]) {
@@ -82,7 +84,8 @@ export class SiteLayoutComponent implements OnInit {
             );
             this.httpService
               .getCartItems(this.userService.getUserData().id)
-              .subscribe(items => console.log(items));
+              .subscribe(items => 
+                this.userService.setCartItems(items));
           },
           error => {
             console.log(error.error.message);
