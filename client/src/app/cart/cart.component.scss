@@ -1,71 +1,189 @@
-
 .catalog {
+  display: flex;
+  width: 80%;
+  box-sizing: border-box;
+  flex-direction: column;
+  &__filter-wrapper {
+    width: 15%;
+  }
+  &__filter {
+    margin-top: 5%;
+    height: 70vh;
+  }
+  &__card-wrapper {
+    width: 85%;
     display: flex;
-    &__filter-wrapper{
-        width: 15%;
-    }
-    &__filter{
-        margin-top: 5%;
-        height: 70vh;
-    }
-    &__card-wrapper {
-        width: 85%;
-        display: flex;
-        flex-flow: row wrap;
-    }
-    &__product-card{
-      display: flex;
-      flex-direction: column;
-       width: 20%;
-       margin: 1%;
-        align-content: space-between;
-        justify-content: space-around;
-        height: auto;
-        overflow: hidden;
-        padding-bottom: 30px;
-    }
-    &__loader-wrapper {
-        display: flex;
-        height: 70vh;
-        width: 85%;
-        align-items: center;
-        justify-content: center;
-    }
-    &__product-card-sizeselect {
-      width: 30%;
-     
-    }
-    &__product-card-colorselect {
-      width: 30%;
-     
-    }
-    &__product-card-select-wrapper{
-      width: 100%;
-      display: flex;
-      justify-content: space-around;
-      
-    }
-  
+    flex-flow: row wrap;
+  }
+  &__product-card {
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    margin: 1%;
+    align-content: space-between;
+    justify-content: space-around;
+    height: auto;
+    overflow: hidden;
+    padding-bottom: 30px;
+  }
+  &__loader-wrapper {
+    display: flex;
+    height: 70vh;
+    width: 85%;
+    align-items: center;
+    justify-content: center;
+  }
+  &__product-card-sizeselect {
+    width: 30%;
+  }
+  &__product-card-colorselect {
+    width: 30%;
+  }
+  &__product-card-select-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+  }
 }
 
 .example-header-image {
-    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
-    background-size: cover;
-  }
+  background-image: url("https://material.angular.io/assets/img/examples/shiba1.jpg");
+  background-size: cover;
+}
 
-  .example-h2 {
-    margin: 10px;
-  }
-  
-  .example-section {
-     
-    height: 60px;
-    margin: 15px 0;
-    background-color: whitesmoke;
-  }
-  
-  .example-margin {
-    margin: 0 10px;
-  }
+.example-h2 {
+  margin: 10px;
+}
 
- 
+.example-section {
+  height: 60px;
+  margin: 15px 0;
+  background-color: whitesmoke;
+}
+
+.example-margin {
+  margin: 0 10px;
+}
+
+.item-table {
+  margin-top: 10px;
+}
+
+table {
+  width: 100%;
+}
+
+tr.example-detail-row {
+  height: 0;
+}
+
+tr.example-element-row:not(.example-expanded-row):hover {
+  background: #777;
+}
+
+tr.example-element-row:not(.example-expanded-row):active {
+  background: #efefef;
+}
+
+.example-element-row td {
+  border-bottom-width: 0;
+}
+
+.example-element-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+.example-element-diagram {
+  min-width: 100px;
+  border: 2px solid black;
+  padding: 8px;
+  font-weight: lighter;
+  margin: 8px 0;
+  height: 104px;
+}
+
+.example-element-symbol {
+  font-weight: bold;
+  font-size: 40px;
+  line-height: normal;
+}
+.img-wrapper {
+  padding: 8px;
+  margin: 8px 0;
+}
+
+.example-element-description {
+  padding: 16px;
+}
+
+.example-element-description-attribution {
+  opacity: 0.5;
+}
+
+.delete-button {
+  float: right;
+}
+
+.empry-cart-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+}
+.empry-cart {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.menu__search-icon {
+  color: grey;
+  font-size: 100px;
+  width: 100px;
+  height: 100px;
+}
+.empry-cart-text {
+  color: grey;
+  font-size: 50px;
+  text-align: center;
+}
+
+.catalog__title {
+  text-align: center;
+
+  color: black;
+}
+
+.catalog__wrapper {
+  display: flex;
+  flex-direction: column;
+  padding-top: 100px;
+}
+.order-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 15%;
+  box-sizing: border-box;
+  border-radius: 5px;
+  position: fixed;
+  height: 600px;
+  right: 25px;
+  top: 118px;
+  background-color: white;
+  animation: moveFromLeft 0.7s;
+}
+.example-element-description {
+  flex: 1 1 auto;
+}
+
+@keyframes moveFromLeft {
+  from {
+    right: -125px;
+  }
+  to {
+    right: 25px;
+  }
+}

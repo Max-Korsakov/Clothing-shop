@@ -61,80 +61,109 @@
       </section>
       <section class="catalog__filter-section">
         <mat-label>Max price</mat-label>
-        <mat-slider
-          min="1"
-          max="1000"
-          step="1"
-          thumbLabel
-          tickInterval="1"
-          name="maxPrice"
-          [(ngModel)]="maxPrice"
-        ></mat-slider>
+        <div class="catalog__filter-slider">
+          <mat-slider
+            min="1"
+            max="1000"
+            step="1"
+            thumbLabel
+            tickInterval="1"
+            name="maxPrice"
+            [(ngModel)]="maxPrice"
+          ></mat-slider>
+        </div>
       </section>
     </mat-card-content>
-    <button
-      mat-stroked-button
-      (click)="filterItems(gender, brand, type, color, size, maxPrice)"
-      color="primary"
-    >
+    <button mat-stroked-button (click)="filterItems()" color="primary">
       FILTER
     </button>
   </mat-card>
-
-  <div *ngIf="catalog as items; else loader" class="catalog__card-wrapper">
-    <mat-card *ngFor="let item of items" class="catalog__product-card">
-      <mat-card-header>
-        <div mat-card-avatar class="example-header-image"></div>
-        <mat-card-title>{{ item.name }}</mat-card-title>
-        <mat-card-subtitle>{{ item.brand }}</mat-card-subtitle>
-      </mat-card-header>
-      <img mat-card-image src="{{ item.img }}" alt="Photo of {{ item.name }}" />
-      <mat-card-content>
-        <p>
-          {{ item.discription }}
-        </p>
-        <button mat-stroked-button (click)="openItemDetails(item._id)">
-          DETAILS
-        </button>
-        <div class="catalog__product-card-select-wrapper">
-          <mat-form-field class="catalog__product-card-sizeselect">
-            <mat-label>Size</mat-label>
-            <mat-select #sizeSelect>
-              <mat-option *ngFor="let size of item.size" [value]="size">
-                {{ size }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field class="catalog__product-card-colorselect">
-            <mat-label>Color</mat-label>
-            <mat-select #colorSelect>
-              <mat-option *ngFor="let color of item.color" [value]="color">
-                {{ color }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-      </mat-card-content>
-      <mat-card-actions align="center">
-        <mat-card-title>{{ item.price }} $</mat-card-title>
-        <button
-          mat-stroked-button
-          (click)="
-            addToCart(item._id, sizeSelect.value, colorSelect.value, item.name)
-          "
-          color="primary"
+  <div *ngIf="catalog && catalog.length >= 0; else loader">
+    <div class="empry-cart-wrapper" *ngIf="catalog.length === 0">
+      <div class="empry-cart">
+        <mat-icon
+          class="menu__filter-icon"
+          aria-hidden="false"
+          aria-label="filter_list"
+          >filter_list</mat-icon
         >
-          TO CART
-        </button>
-        <button mat-button (click)="addToFavorite(item._id)">
-          TO FAVORITE
-        </button>
-      </mat-card-actions>
-    </mat-card>
-  </div>
-  <ng-template #loader>
-    <div class="catalog__loader-wrapper">
-      <app-loader></app-loader>
+        <div class="empry-cart-text">
+          No items
+        </div>
+      </div>
     </div>
-  </ng-template>
+    <div *ngIf="catalog as items" class="catalog__card-wrapper">
+      <mat-card *ngFor="let item of items" class="catalog__product-card">
+        <mat-card-header>
+          <div mat-card-avatar class="example-header-image"></div>
+          <mat-card-title>{{ item.name }}</mat-card-title>
+          <mat-card-subtitle>{{ item.brand }}</mat-card-subtitle>
+        </mat-card-header>
+        <img
+          mat-card-image
+          style="height:500px;"
+          src="{{ item.img }}"
+          alt="Photo of {{ item.name }}"
+        />
+        <mat-card-content>
+          <button mat-stroked-button (click)="openItemDetails(item._id)">
+            DETAILS
+          </button>
+          <div class="catalog__product-card-select-wrapper">
+            <mat-form-field class="catalog__product-card-sizeselect">
+              <mat-label>Size</mat-label>
+              <mat-select #sizeSelect>
+                <mat-option *ngFor="let size of item.size" [value]="size">
+                  {{ size }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field class="catalog__product-card-colorselect">
+              <mat-label>Color</mat-label>
+              <mat-select #colorSelect>
+                <mat-option *ngFor="let color of item.color" [value]="color">
+                  {{ color }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </mat-card-content>
+        <mat-card-actions align="center">
+          <mat-card-title>Price: {{ item.price }} $</mat-card-title>
+          <button
+            mat-stroked-button
+            (click)="
+              addToCart(
+                item._id,
+                sizeSelect.value,
+                colorSelect.value,
+                item.name
+              )
+            "
+            color="primary"
+          >
+            TO CART
+          </button>
+          <button *ngIf="userId" mat-button (click)="addToFavorite(item._id)">
+            TO FAVORITE
+          </button>
+        </mat-card-actions>
+      </mat-card>
+      <mat-paginator
+        *ngIf="catalog && catalog.length > 0"
+        #paginator
+        [length]="catalogLength"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="[8, 16, 24, 64]"
+        (page)="pageEvent = paginationClick($event)"
+      >
+      </mat-paginator>
+    </div>
+  </div>
 </div>
+
+<ng-template #loader>
+  <div class="catalog__loader-wrapper">
+    <app-loader></app-loader>
+  </div>
+</ng-template>

@@ -40,12 +40,18 @@ export class SiteLayoutComponent implements OnInit {
   public autoHide: number = 1500;
   public horizontalPosition: MatSnackBarHorizontalPosition = "left";
   public verticalPosition: MatSnackBarVerticalPosition = "bottom";
-
+  public searchData;
+public searchBrands;
+public searchTypes;
   public numberItemsInTheCart: number = null;
   ngOnInit() {
     this.userService.setActiveUser();
     this.activeUser = this.userService.getUserData();
-    this.userService.foo.subscribe( data => {
+  //  if(this.activeUser && this.activeUser.id) {
+  //    this.userService.getCartItems(this.activeUser.id)
+  //  }
+  
+    this.userService.foo.subscribe( data => {  
       this.numberItemsInTheCart = data.cartItems.length + data.newCartItems.length;
     })
   }
@@ -67,8 +73,22 @@ export class SiteLayoutComponent implements OnInit {
     this.popupService.openSignUpDialog().subscribe(data => {
       if (data && data.isSignUp) {
         this.authService.register(data.formValue).subscribe(
-          data => {
+          registerData => {
             this.openSnackBar(this.message);
+            this.authService.login(data.formValue).subscribe(
+              () => {
+                this.userService.setActiveUser();
+               // this.activeUser = this.userService.getUserData();
+              //  this.userService.getCartItems(this.activeUser.id)
+                this.openSnackBar(
+                  "Hello, " + this.activeUser.firstName
+                );
+         
+              },
+              error => {
+                console.log(error.error.message);
+              }
+            );
           },
           error => {
             console.log(error.error.message);
@@ -78,14 +98,12 @@ export class SiteLayoutComponent implements OnInit {
         this.authService.login(data.formValue).subscribe(
           () => {
             this.userService.setActiveUser();
-            this.activeUser = this.userService.getUserData();
+           // this.activeUser = this.userService.getUserData();
+          //  this.userService.getCartItems(this.activeUser.id)
             this.openSnackBar(
-              "Hello, " + this.userService.getUserData().firstName
+              "Hello, " + this.activeUser.firstName
             );
-            this.httpService
-              .getCartItems(this.userService.getUserData().id)
-              .subscribe(items => 
-                this.userService.setCartItems(items));
+     
           },
           error => {
             console.log(error.error.message);
@@ -95,11 +113,27 @@ export class SiteLayoutComponent implements OnInit {
     });
   }
 
+  public inputChanged() {
+    if(/\S/.test(this.searchData)) {
+    this.httpService.searchItems(this.searchData.trim()).subscribe( data => {
+      this.searchBrands = data.brand
+      this.searchTypes = data.type
+    })}
+  }
+
+  public findBrandItems(brand) {
+    this.httpService.getItemsWithParams({brand:brand }, {pageSize:8})
+    this.searchData = null
+  }
+
+  public findTypeItems(type) {
+    this.httpService.getItemsWithParams({type:type }, {pageSize:8})
+    this.searchData = null
+  }
+
   public logOut() {
     this.authService.logout();
-    this.activeUser.id = null;
-    this.activeUser.email = null;
-    this.activeUser.password = null;
-    this.activeUser.firstName = null;
+
+    this.userService.logOut()
   }
 }

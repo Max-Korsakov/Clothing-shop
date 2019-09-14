@@ -1,59 +1,227 @@
-<div class="catalog" *ngIf="isLoadOver">
-  <div *ngIf="newCartItem as items; else loader" class="catalog__card-wrapper">
-    <mat-card *ngFor="let item of items" class="catalog__product-card">
-      <mat-card-header>
-        <div mat-card-avatar class="example-header-image"></div>
-        <mat-card-title>{{ item.name }}</mat-card-title>
-        <mat-card-subtitle>{{ item.brand }}</mat-card-subtitle>
-        <button mat-stroked-button (click)="openItemDetails(item._id)">
-          DETAILS
-        </button>
-      </mat-card-header>
-      <img mat-card-image src="{{ item.img }}" alt="Photo of {{ item.name }}" />
-      <mat-card-content>
-        <p>
-          {{ item.discription }}
-        </p>
-        <div class="catalog__product-card-select-wrapper">
-          <mat-form-field class="catalog__product-card-sizeselect">
-            <mat-label>Size</mat-label>
-            <mat-select #sizeSelect>
-              <mat-option *ngFor="let size of item.size" [value]="size">
-                {{ size }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field class="catalog__product-card-colorselect">
-            <mat-label>Color</mat-label>
-            <mat-select #colorSelect>
-              <mat-option *ngFor="let color of item.color" [value]="color">
-                {{ color }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-      </mat-card-content>
-      <mat-card-actions align="center">
-        <button
-          mat-stroked-button
-          (click)="
-            addToCart(item._id, sizeSelect.value, colorSelect.value);
-            openSnackBar(item.name)
-          "
-          color="primary"
+<div class="catalog__wrapper" (window:beforeunload)="saveNewItems()">
+  <div class="catalog" *ngIf="newCartItem && newCartItem.length > 0">
+    <div class="catalog__title mat-title">New items</div>
+    <table
+      mat-table
+      [dataSource]="newCartItem"
+      multiTemplateDataRows
+      class="mat-elevation-z8 item-table"
+    >
+      <ng-container matColumnDef="Brand">
+        <th mat-header-cell *matHeaderCellDef>Brand</th>
+        <td mat-cell *matCellDef="let element">{{ element.brand }}</td>
+        <td mat-footer-cell *matFooterCellDef>Total</td>
+      </ng-container>
+
+      <ng-container matColumnDef="Name">
+        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+
+      <ng-container matColumnDef="Color">
+        <th mat-header-cell *matHeaderCellDef>Color</th>
+        <td mat-cell *matCellDef="let element">{{ element.color }}</td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+
+      <ng-container matColumnDef="Size">
+        <th mat-header-cell *matHeaderCellDef>Size</th>
+        <td mat-cell *matCellDef="let element">{{ element.size }}</td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+
+      <ng-container matColumnDef="Price">
+        <th mat-header-cell *matHeaderCellDef>Price</th>
+        <td mat-cell *matCellDef="let element">{{ element.price }}$</td>
+        <td mat-footer-cell *matFooterCellDef>{{ getTotalCostNewItems() }}$</td>
+      </ng-container>
+
+      <ng-container matColumnDef="expandedDetail">
+        <td
+          mat-cell
+          *matCellDef="let element"
+          [attr.colspan]="displayedColumns.length"
         >
-          TO CART
-        </button>
-        <button mat-button (click)="addToFavorite(item._id)">
-          TO FAVORITE
-        </button>
-      </mat-card-actions>
-    </mat-card>
+          <div
+            class="example-element-detail"
+            [@detailExpand]="
+              element == expandedElement ? 'expanded' : 'collapsed'
+            "
+          >
+            <div class="example-element-diagram">
+              <div class="example-element-position">{{ element.brand }}</div>
+              <div class="example-element-symbol">{{ element.name }}</div>
+            </div>
+            <div class="example-element-description">
+              {{ element.discription }}
+            </div>
+            <div class="img-wrapper">
+              <img
+                src="{{ element.img }}"
+                alt="Photo of {{ element.name }}"
+                style="height: 100px; width: auto"
+              />
+            </div>
+
+            <button
+              mat-button
+              class="delete-button"
+              (click)="deleteNewItemFromCart(element._id)"
+            >
+              DELETE
+            </button>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr
+        mat-row
+        *matRowDef="let element; columns: displayedColumns"
+        class="example-element-row"
+        [class.example-expanded-row]="expandedElement === element"
+        (click)="expandedElement = expandedElement === element ? null : element"
+      ></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: ['expandedDetail']"
+        class="example-detail-row"
+      ></tr>
+      <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+    </table>
   </div>
-  <ng-template #loader>
-    <div class="catalog__loader-wrapper">
-      <app-loader></app-loader>
+
+  <div class="catalog" *ngIf="cartItems.length > 0">
+    <div class="catalog__title mat-title">Saved items</div>
+    <table
+      mat-table
+      [dataSource]="cartItems"
+      multiTemplateDataRows
+      class="mat-elevation-z8 item-table"
+    >
+      <ng-container matColumnDef="Brand">
+        <th mat-header-cell *matHeaderCellDef>Brand</th>
+        <td mat-cell *matCellDef="let element">{{ element.brand }}</td>
+        <td mat-footer-cell *matFooterCellDef>Total</td>
+      </ng-container>
+
+      <ng-container matColumnDef="Name">
+        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+
+      <ng-container matColumnDef="Color">
+        <th mat-header-cell *matHeaderCellDef>Color</th>
+        <td mat-cell *matCellDef="let element">{{ element.color }}</td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+
+      <ng-container matColumnDef="Size">
+        <th mat-header-cell *matHeaderCellDef>Size</th>
+        <td mat-cell *matCellDef="let element">{{ element.size }}</td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+
+      <ng-container matColumnDef="Price">
+        <th mat-header-cell *matHeaderCellDef>Price</th>
+        <td mat-cell *matCellDef="let element">{{ element.price }}$</td>
+        <td mat-footer-cell *matFooterCellDef>{{ getTotalCostItems() }}$</td>
+      </ng-container>
+
+      <ng-container matColumnDef="expandedDetail">
+        <td
+          mat-cell
+          *matCellDef="let element"
+          [attr.colspan]="displayedColumns.length"
+        >
+          <div
+            class="example-element-detail"
+            [@detailExpand]="
+              element == expandedElement ? 'expanded' : 'collapsed'
+            "
+          >
+            <div class="example-element-diagram">
+              <div class="example-element-position">{{ element.brand }}</div>
+              <div class="example-element-symbol">{{ element.name }}</div>
+            </div>
+            <div class="example-element-description">
+              {{ element.discription }}
+            </div>
+            <div class="img-wrapper">
+              <img
+                src="{{ element.img }}"
+                alt="Photo of {{ element.name }}"
+                style="height: 100px; width: auto"
+              />
+            </div>
+
+            <button
+              mat-button
+              class="delete-button"
+              (click)="
+                deleteSavedItemFromCart(
+                  element._id,
+                  element.size,
+                  element.color
+                )
+              "
+            >
+              DELETE
+            </button>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr
+        mat-row
+        *matRowDef="let element; columns: displayedColumns"
+        class="example-element-row"
+        [class.example-expanded-row]="expandedElement === element"
+        (click)="expandedElement = expandedElement === element ? null : element"
+      ></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: ['expandedDetail']"
+        class="example-detail-row"
+      ></tr>
+      <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+    </table>
+
+    <ng-template #loader>
+      <div class="catalog__loader-wrapper">
+        <app-loader></app-loader>
+      </div>
+    </ng-template>
+  </div>
+  <div
+    class="empry-cart-wrapper"
+    *ngIf="cartItems.length === 0 && newCartItem.length === 0"
+  >
+    <div class="empry-cart">
+      <mat-icon
+        class="menu__search-icon"
+        aria-hidden="false"
+        aria-label="search"
+        >shopping_cart</mat-icon
+      >
+      <div class="empry-cart-text">
+        Cart is empty
+      </div>
     </div>
-  </ng-template>
+  </div>
+  <mat-card class="order-info mat-elevation-z8">
+    <mat-card-title align="center">Order info</mat-card-title>
+    <mat-card-content>
+      <mat-divider></mat-divider>
+      <div class="catalog__title mat-title">
+        Total: {{ getTotalCostItems() + getTotalCostNewItems() }}$
+      </div>
+      <button mat-stroked-button color="primary">
+        ORDER
+      </button>
+    </mat-card-content>
+  </mat-card>
 </div>
-<div *ngIf="!isLoadOver">Cart is empty</div>

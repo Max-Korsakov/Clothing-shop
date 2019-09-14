@@ -32,6 +32,10 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatSliderModule} from '@angular/material/slider';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatTableModule} from '@angular/material/table';
+import {MatSortModule} from '@angular/material/sort';
+import {MatExpansionModule} from '@angular/material/expansion';
 import 'hammerjs';
 
 @NgModule({
@@ -71,7 +75,11 @@ import 'hammerjs';
     MatSnackBarModule,
     MatButtonToggleModule,
     MatBadgeModule,
-    MatSliderModule
+    MatSliderModule,
+    MatPaginatorModule,
+    MatTableModule,
+    MatSortModule,
+    MatExpansionModule
   ],
   entryComponents: [MaterialDialogComponent, SignupSigninDialogComponent],
   providers: [],

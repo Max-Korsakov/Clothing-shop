@@ -3,11 +3,10 @@ export interface User {
   email: string;
   password: string;
   firstName: number;
-  newCartItems?:Array<string>;
-  cartItems: Array<string>;
+  newCartItems?: [{ itemId: string; itemSize: string; itemColor: string }];
+  cartItems: [{ itemId: string; itemSize: string; itemColor: string }];
   favoriteItems: Array<string>;
 }
-
 
 export interface PopupTextContent {
   title: string;

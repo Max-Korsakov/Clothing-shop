@@ -23,11 +23,8 @@ const userSchema = new Schema({
     favoriteItems: {
         type: Array,
         required: false
-    },
-    token: {
-        type: String,
-        required: false
     }
+
 })
 
 module.exports = mongoose.model('User', userSchema)

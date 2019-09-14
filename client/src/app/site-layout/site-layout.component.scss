@@ -27,4 +27,41 @@ mat-toolbar {
   z-index: 999;
 }
 .content-wrapper {
+  height: auto;
+}
+.menu__search-form-result {
+  display: flex;
+  flex-direction: column;
+  z-index: 999999 ;
+  position: absolute;
+  width: 300px;
+  height: 200px;
+  top: 55px;
+ background-color: white;
+ border-radius: 5px;
+ opacity: 0.9;
+ color: black;
+}
+.menu__search-form-result-brand{
+  height: 50%;
+  box-sizing: border-box;
+}
+.menu__search-form-result-type{
+  height: 50%;
+  box-sizing: border-box;
+}
+
+.menu__search-form-result-brand-item{
+
+  color: grey;
+  cursor: pointer;
+}
+.menu__search-form-result-brand-item:hover {
+  color: black;
+background-color: whitesmoke;
+}
+
+.menu__search-form-result-nofound {
+  color: grey;
+  font-size: 0.8em;
 }

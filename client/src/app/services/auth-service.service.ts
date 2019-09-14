@@ -25,7 +25,6 @@ export class AuthServiceService {
   }
 
   register(user: User): Observable<User> {
-    console.log(user);
     return this.http.post<User>("http://localhost:5000/auth/register", user);
   }
 

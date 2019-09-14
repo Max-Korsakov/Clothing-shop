@@ -1,6 +1,7 @@
 .item {
     display: flex;
     justify-content: space-between;
+    padding-top: 100px;
     &__buttons-wrapper{
         width: 15%;
         margin-top: 1%;
@@ -21,10 +22,7 @@
     &__product-card{
       display: flex;
       flex-direction: column;
-       width: 80%;
-        margin: 1%;
-        align-content: space-between;
-        justify-content: space-around;
+       width: 30%;
         height: auto;
         overflow: hidden;
         padding-bottom: 30px;

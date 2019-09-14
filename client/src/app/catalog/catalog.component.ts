@@ -1,14 +1,12 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { CatalogItem } from "../models";
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+
 import { UserServiceService } from "../services/user-service.service";
 import { FilterService } from "../services/filter.service";
 import { Router, ActivatedRoute } from "@angular/router";
-import { Observable, Subscription } from "rxjs";
-import { NgModel} from '@angular/forms';
+import { AuthServiceService } from "../services/auth-service.service";
 import { HttpServiceService } from "../services/http-service.service";
 import {
-  MatSnackBar,
   MatSnackBarConfig,
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition
@@ -27,8 +25,7 @@ export class CatalogComponent implements OnInit {
     private popupService: PopupServiceService,
     private router: Router,
     private route: ActivatedRoute,
-
-
+    private authService: AuthServiceService
   ) {}
   message: string = " was added to cart";
   actionButtonLabel: string = "Ok";
@@ -37,33 +34,62 @@ export class CatalogComponent implements OnInit {
   autoHide: number = 1500;
   horizontalPosition: MatSnackBarHorizontalPosition = "left";
   verticalPosition: MatSnackBarVerticalPosition = "bottom";
-
-  public gender: any
-  public brand: any
-  public type: any
-  public color: any
-  public size: any
-  public minPrice: any
-  public maxPrice: any
-
+  public userId;
+  public gender: any;
+  public brand: any;
+  public type: any;
+  public color: any;
+  public size: any;
+  public minPrice: any;
+  public maxPrice: any = 300;
+  public panelOpenState = false;
   public catalog: any;
-  public selectedProperties: any ={}
+  public selectedProperties: any = {};
+  public catalogLength: number;
+  public pageSize: number = 8;
   public properties: any = {
-    brand: ['All'],
-    type: ['All'],
-    color: ['All'],
-    gender: ['All'],
-    size: ['All']
+    brand: ["All"],
+    type: ["All"],
+    color: ["All"],
+    gender: ["All"],
+    size: ["All"]
   };
+  @ViewChild("paginator", null) paginator: any;
   ngOnInit() {
-    this.httpService.getItems().subscribe(data => {
-      this.catalog = data.items;
-      this.properties.gender = [...this.properties.gender, ...data.filterProps.filterGender];
-      this.properties.brand = [...this.properties.brand, ...data.filterProps.filterBrands];
-      this.properties.type = [...this.properties.type, ...data.filterProps.filterTypes];
-      this.properties.color = [...this.properties.color, ...data.filterProps.filterColors];
-      this.properties.size = [...this.properties.size, ...data.filterProps.filterSizes];
+    this.userService.foo.subscribe(data => {
+      this.userId = data.id;
+    });
+    this.httpService.getFilterProps().subscribe(data => {
+      this.properties.gender = [
+        ...this.properties.gender,
+        ...data.filterProps.filterGender
+      ];
+      this.properties.brand = [
+        ...this.properties.brand,
+        ...data.filterProps.filterBrands
+      ];
+      this.properties.type = [
+        ...this.properties.type,
+        ...data.filterProps.filterTypes
+      ];
+      this.properties.color = [
+        ...this.properties.color,
+        ...data.filterProps.filterColors
+      ];
+      this.properties.size = [
+        ...this.properties.size,
+        ...data.filterProps.filterSizes
+      ];
+    });
 
+    this.getItemsWithParams({ pageSize: this.pageSize });
+    this.httpService.catalogUpdate.subscribe(data => {
+      if (data) {
+        this.catalog = data.items;
+        this.brand = data.filterData.brand;
+        this.type = data.filterData.type;
+        this.catalogLength = data.itemArrayLength;
+      }
     });
   }
 
@@ -77,23 +103,51 @@ export class CatalogComponent implements OnInit {
   }
 
   public addToCart(id, itemSize, itemColor, itemName) {
-    this.userService.addItemToCart({
-      itemId: id
-    });
-    this.openSnackBar(itemName + this.message);
+    if (!itemSize) {
+      this.openSnackBar("Choose size, please");
+    } else if (!itemColor) {
+      this.openSnackBar("Choose size, please");
+    } else {
+      this.userService.addItemToCart({
+        itemId: id,
+        itemSize: itemSize,
+        itemColor: itemColor
+      });
+      this.openSnackBar(itemName + this.message);
+    }
   }
 
-  public filterItems(gender,brand,type,color,size,maxPrice) {
-if(!gender && !brand && !type && !color && !size &&!maxPrice) {
-  this.openSnackBar('Choose filter conditions');
-} else {
-   this.httpService.getFilteredItems({gender: gender,brand: brand,type: type,color: color,size: size,maxPrice: maxPrice}).subscribe( data =>{
-    this.catalog = data})}
-   
+  public filterItems() {
+    this.getItemsWithParams({ pageSize: this.pageSize });
+    this.paginator.firstPage();
+  }
+
+  public paginationClick(event) {
+    this.getItemsWithParams(event);
+  }
+
+  public getItemsWithParams(paginationData) {
+    this.pageSize = paginationData.pageSize;
+    this.httpService.getItemsWithParams(
+      {
+        gender: this.gender,
+        brand: this.brand,
+        type: this.type,
+        color: this.color,
+        size: this.size,
+        maxPrice: this.maxPrice
+      },
+
+      paginationData
+    );
   }
 
   public addToFavorite(id) {
-    this.userService.addItemToFavorite(id);
+    if (!this.authService.isAuth()) {
+      this.popupService.openSignUpDialog();
+    } else {
+      this.userService.addItemToFavorite(id);
+    }
   }
 
   public openItemDetails(id) {
