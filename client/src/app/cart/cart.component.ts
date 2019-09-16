@@ -67,11 +67,12 @@ export class CartComponent implements OnInit, OnDestroy {
         const itemObject = itemsArray.find(item => {
           return item._id === savedItem.itemId;
         });
-
-        const itemInTable = Object.assign({}, itemObject);
-        itemInTable.size = savedItem.itemSize;
-        itemInTable.color = savedItem.itemColor;
-        this.newCartItem = [...this.newCartItem, ...[itemInTable]];
+        if (itemObject && itemObject.hasOwnProperty("_id")) {
+          const itemInTable = Object.assign({}, itemObject);
+          itemInTable.size = savedItem.itemSize;
+          itemInTable.color = savedItem.itemColor;
+          this.newCartItem = [...this.newCartItem, ...[itemInTable]];
+        }
       });
     });
 
@@ -84,11 +85,12 @@ export class CartComponent implements OnInit, OnDestroy {
         const itemObject = itemsArray.find(item => {
           return item._id === savedItem.itemId;
         });
-
-        const itemInTable = Object.assign({}, itemObject);
-        itemInTable.size = savedItem.itemSize;
-        itemInTable.color = savedItem.itemColor;
-        this.cartItems = [...this.cartItems, ...[itemInTable]];
+        if (itemObject && itemObject.hasOwnProperty("_id")) {
+          const itemInTable = Object.assign({}, itemObject);
+          itemInTable.size = savedItem.itemSize;
+          itemInTable.color = savedItem.itemColor;
+          this.cartItems = [...this.cartItems, ...[itemInTable]];
+        }
       });
     });
   }

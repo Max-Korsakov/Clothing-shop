@@ -1,1 +1,96 @@
-<p>favourit works!</p>
+<div *ngIf="favoriteItems as items" class="catalog__card-wrapper">
+    <mat-card *ngFor="let item of items" class="catalog__product-card">
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>{{ item.name }}</mat-card-title>
+        <mat-card-subtitle>{{ item.brand }}</mat-card-subtitle>
+      </mat-card-header>
+      <div class= 'img_wrapper'>   <img
+        mat-card-image
+        src="{{ item.img }}"
+       
+        alt="Photo of {{ item.name }}"
+      />
+      
+      <img
+      mat-card-image
+      src="{{ item.img }}"
+     
+      alt="Photo of {{ item.name }}"
+    />
+
+      <img
+      style='
+              
+            
+              -moz-transform: scale(-1,1);
+              -o-transform: scale(-1,1);
+              -webkit-transform: scale(-1,1);
+              transform:scale(-1,1)'
+      mat-card-image
+      src="{{ item.img }}"
+     
+      alt="Photo of {{ item.name }}"
+    />
+    <img
+      style='
+              
+            
+              -moz-transform: scale(-1,1);
+              -o-transform: scale(-1,1);
+              -webkit-transform: scale(-1,1);
+              transform:scale(-1,1)'
+      mat-card-image
+      src="{{ item.img }}"
+     
+      alt="Photo of {{ item.name }}"
+    />
+  
+  
+  </div>
+      <mat-card-content align='center'>
+        <button mat-stroked-button (click)="openItemDetails(item._id)">
+          DETAILS
+        </button>
+
+        <button mat-stroked-button (click)="deleteFromFavorite(item._id)">
+            DELETE FROM FAVORITE
+          </button>
+        <div class="catalog__product-card-select-wrapper">
+          <mat-form-field class="catalog__product-card-sizeselect">
+            <mat-label>Size</mat-label>
+            <mat-select #sizeSelect>
+              <mat-option *ngFor="let size of item.size" [value]="size">
+                {{ size }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="catalog__product-card-colorselect">
+            <mat-label>Color</mat-label>
+            <mat-select #colorSelect>
+              <mat-option *ngFor="let color of item.color" [value]="color">
+                {{ color }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+      <mat-card-actions align="center">
+        <mat-card-title>Price: {{ item.price }} $</mat-card-title>
+        <button
+          mat-stroked-button
+          (click)="
+            addToCart(
+              item._id,
+              sizeSelect.value,
+              colorSelect.value,
+              item.name
+            )
+          "
+          color="primary"
+        >
+          TO CART
+        </button>
+  
+      </mat-card-actions>
+    </mat-card>

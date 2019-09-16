@@ -6,14 +6,13 @@
     
                 <button mat-button class='product__button' (click)="backToCatalog()">TO CATALOG</button>
                 <button mat-button class='product__button' (click)="addToFavorite(catalogItem._id)">
-                  TO FAVORITE
+                  ADD TO FAVORITE
                 </button>
                 <button
                 class='product__button'
                   mat-stroked-button
                   (click)="
-                    addToCart(catalogItem._id, sizeSelect.value, colorSelect.value);
-                    openSnackBar(catalogItem.name)
+                    addToCart(catalogItem._id, sizeSelect.value, colorSelect.value, catalogItem.name)
                   "
                   color="primary"
                 >
@@ -28,11 +27,26 @@
         <mat-card-title>{{ catalogItem.name }}</mat-card-title>
         <mat-card-subtitle>{{ catalogItem.brand }}</mat-card-subtitle>
       </mat-card-header>
-      <img
+      <div class= 'img_wrapper'>   <img
         mat-card-image
         src="{{ catalogItem.img }}"
+       
         alt="Photo of {{ catalogItem.name }}"
       />
+      <img
+      style='
+              
+            
+              -moz-transform: scale(-1,1);
+              -o-transform: scale(-1,1);
+              -webkit-transform: scale(-1,1);
+              transform:scale(-1,1)'
+      mat-card-image
+      src="{{ catalogItem.img }}"
+     
+      alt="Photo of {{ catalogItem.name }}"
+    /></div>
+   
       <mat-card-content>
         <p>
           {{ catalogItem.discription }}

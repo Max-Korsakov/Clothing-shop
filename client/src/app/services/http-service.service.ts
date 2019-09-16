@@ -128,6 +128,52 @@ export class HttpServiceService {
     );
   }
 
+  getFavoriteItems(userId): Observable<string[]> {
+    let parameters = new HttpParams();
+    parameters = parameters.append("userId", userId);
+
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append(
+      "Authorization",
+      localStorage.getItem("auth-token")
+    );
+
+    return this.http.get<any>(`http://localhost:5000/favorite/${userId}`, {
+      params: parameters,
+      headers: headers
+    });
+  }
+
+  addFavoriteItem(userId: string, item: string): Observable<string[]> {
+    const newItem = JSON.stringify({ item: item });
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("auth-token")
+      })
+    };
+    return this.http.post<string[]>(
+      `http://localhost:5000/favorite/${userId}`,
+      newItem,
+      httpOptions
+    );
+  }
+
+  deleteFavoriteItem(userId: string, item: any): Observable<string[]> {
+    const newItem = JSON.stringify({ item: item });
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("auth-token")
+      })
+    };
+    return this.http.post<string[]>(
+      `http://localhost:5000/favorite/delete/${userId}`,
+      newItem,
+      httpOptions
+    );
+  }
+
   deleteCartItem(userId: string, item: any): Observable<string[]> {
     const newItem = JSON.stringify({ item: item });
     const httpOptions = {

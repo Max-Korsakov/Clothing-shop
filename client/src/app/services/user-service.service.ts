@@ -3,6 +3,7 @@ import { User } from "../models";
 import { from, of, Observable, BehaviorSubject } from "rxjs";
 import { AuthServiceService } from "../services/auth-service.service";
 import { HttpServiceService } from "../services/http-service.service";
+import { element } from "protractor";
 @Injectable({
   providedIn: "root"
 })
@@ -73,42 +74,53 @@ export class UserServiceService {
     this.foo.next(this._activeUser);
   }
 
-  public deleteSavedItemFromCart(itemId, itemSize, itemColor): any {
-    if (this._activeUser.id) {
-      this._activeUser.cartItems.splice(
-        this._activeUser.cartItems.indexOf(itemId),
-        1
-      );
-      const deletedIndex = this._activeUser.cartItems.findIndex(element => {
-        if (
-          element.itemId === itemId &&
-          element.itemSize === itemSize &&
-          element.itemColor === itemColor
-        ) {
-          return element;
-        }
-      });
+  public deleteFromFavorite(itemId): any {
+    const deletedIndex = this._activeUser.favoriteItems.findIndex(element => {
+      if (element === itemId) {
+        return element;
+      }
+    });
 
-      this.httpService
-        .deleteCartItem(this._activeUser.id, {
-          itemId: itemId,
-          itemSize: itemSize,
-          itemColor: itemColor
-        })
-        .subscribe(data => {
-          this._activeUser.cartItems = data;
-          this.foo.next(this._activeUser);
-        });
-    } else {
-      this._activeUser.cartItems.splice(
-        this._activeUser.cartItems.indexOf(itemId),
-        1
-      );
-      this.foo.next(this._activeUser);
-    }
+    this._activeUser.favoriteItems.splice(deletedIndex, 1);
+
+    this.httpService
+      .deleteFavoriteItem(this._activeUser.id, itemId)
+      .subscribe(data => {
+        this._activeUser.favoriteItems = data;
+        this.foo.next(this._activeUser);
+      });
   }
 
-  public addItemToFavorite(item) {}
+  public deleteSavedItemFromCart(itemId, itemSize, itemColor): any {
+    this.httpService
+      .deleteCartItem(this._activeUser.id, {
+        itemId: itemId,
+        itemSize: itemSize,
+        itemColor: itemColor
+      })
+      .subscribe(data => {
+        this._activeUser.cartItems = data;
+        this.foo.next(this._activeUser);
+      });
+  }
+
+  public addItemToFavorite(item) {
+    this.httpService
+      .addFavoriteItem(this._activeUser.id, item)
+      .subscribe(data => {
+        this._activeUser.favoriteItems = data;
+
+        this.foo.next(this._activeUser);
+      });
+  }
+
+  public getFavorite() {
+    this.httpService.getFavoriteItems(this._activeUser.id).subscribe(data => {
+      this._activeUser.favoriteItems = data;
+
+      this.foo.next(this._activeUser);
+    });
+  }
 
   public setActiveUser() {
     if (localStorage.getItem("auth-token")) {

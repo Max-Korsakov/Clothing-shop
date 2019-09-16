@@ -3,6 +3,7 @@ const passport = require('passport')
 const authRoutes = require('./routes/auth')
 const catalogRoutes = require('./routes/catalog')
 const cartRoutes = require('./routes/cart')
+const favoriteRoutes = require('./routes/favorite')
 const bodyParser = require('body-parser')
 
 const cors = require('cors')
@@ -25,5 +26,6 @@ require('./middleware/passport')(passport)
 app.use('/auth', authRoutes)
 app.use('/catalog', catalogRoutes)
 app.use('/cart', cartRoutes)
+app.use('/favorite', favoriteRoutes)
 
 module.exports = app;

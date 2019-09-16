@@ -35,6 +35,7 @@ export class CatalogComponent implements OnInit {
   horizontalPosition: MatSnackBarHorizontalPosition = "left";
   verticalPosition: MatSnackBarVerticalPosition = "bottom";
   public userId;
+  public userFavorite;
   public gender: any;
   public brand: any;
   public type: any;
@@ -58,6 +59,7 @@ export class CatalogComponent implements OnInit {
   ngOnInit() {
     this.userService.foo.subscribe(data => {
       this.userId = data.id;
+      this.userFavorite = data.favoriteItems
     });
     this.httpService.getFilterProps().subscribe(data => {
       this.properties.gender = [
@@ -143,12 +145,18 @@ export class CatalogComponent implements OnInit {
   }
 
   public addToFavorite(id) {
-    if (!this.authService.isAuth()) {
-      this.popupService.openSignUpDialog();
-    } else {
+    if(!this.userFavorite.find(element => {
+      if(element === id) {
+        return true;
+      } 
+    })) {
       this.userService.addItemToFavorite(id);
-    }
+this.openSnackBar('Item was added to favorite')
+  } else  {
+    this.openSnackBar('Item already in favorite')
   }
+  }
+  
 
   public openItemDetails(id) {
     this.router.navigate(["/catalog/" + id]);
