@@ -132,7 +132,7 @@
 
       <ng-container matColumnDef="expandedDetail">
         <td
-          mat-cell
+          mat-cell 
           *matCellDef="let element"
           [attr.colspan]="displayedColumns.length"
         >
@@ -219,7 +219,7 @@
       <div class="catalog__title mat-title">
         Total: {{ getTotalCostItems() + getTotalCostNewItems() }}$
       </div>
-      <button mat-stroked-button color="primary">
+      <button mat-stroked-button id='order-info-buttom' color="primary">
         ORDER
       </button>
     </mat-card-content>

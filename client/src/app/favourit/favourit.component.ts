@@ -18,7 +18,7 @@ export class FavouritComponent implements OnInit, OnDestroy {
     public userService: UserServiceService,
     private popupService: PopupServiceService,
     public httpService: HttpServiceService,
-    private router: Router,
+    public router: Router,
     private route: ActivatedRoute
    
   ) {}

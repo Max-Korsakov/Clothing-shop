@@ -123,17 +123,17 @@ export class UserServiceService {
   }
 
   public setActiveUser() {
-    if (localStorage.getItem("auth-token")) {
+    if (localStorage  &&  localStorage.getItem("auth-token")) {
       this._activeUser.id = this.authService.decode().id;
       this._activeUser.email = this.authService.decode().email;
       this._activeUser.password = this.authService.decode().password;
       this._activeUser.firstName = this.authService.decode().firstName;
       this.httpService.getCartItems(this._activeUser.id).subscribe(data => {
         this._activeUser.cartItems = data;
-        this.foo.next(this._activeUser);
+       this.foo.next(this._activeUser);
       });
     } else {
-      this.foo.next(this._activeUser);
+     this.foo.next(this._activeUser);
     }
   }
 

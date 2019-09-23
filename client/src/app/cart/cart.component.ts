@@ -9,13 +9,6 @@ import {
   trigger
 } from "@angular/animations";
 
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-
 @Component({
   selector: "app-cart",
   templateUrl: "./cart.component.html",
@@ -36,9 +29,9 @@ export class CartComponent implements OnInit, OnDestroy {
     private httpService: HttpServiceService,
     private userService: UserServiceService
   ) {}
-  private activeUser: any;
-  private newCartItem = [];
-  private cartItems = [];
+  public activeUser: any;
+  public newCartItem = [];
+  public cartItems = [];
   public allCartItems = [];
   public displayedColumns: string[] = [
     "Brand",
@@ -67,11 +60,14 @@ export class CartComponent implements OnInit, OnDestroy {
         const itemObject = itemsArray.find(item => {
           return item._id === savedItem.itemId;
         });
+       
         if (itemObject && itemObject.hasOwnProperty("_id")) {
           const itemInTable = Object.assign({}, itemObject);
           itemInTable.size = savedItem.itemSize;
           itemInTable.color = savedItem.itemColor;
           this.newCartItem = [...this.newCartItem, ...[itemInTable]];
+         
+      
         }
       });
     });

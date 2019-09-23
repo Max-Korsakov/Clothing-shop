@@ -118,7 +118,6 @@ export class HttpServiceService {
     const httpOptions = {
       headers: new HttpHeaders({
         "Content-Type": "application/json",
-        Authorization: localStorage.getItem("auth-token")
       })
     };
     return this.http.post<string[]>(
@@ -132,15 +131,9 @@ export class HttpServiceService {
     let parameters = new HttpParams();
     parameters = parameters.append("userId", userId);
 
-    let headers: HttpHeaders = new HttpHeaders();
-    headers = headers.append(
-      "Authorization",
-      localStorage.getItem("auth-token")
-    );
-
     return this.http.get<any>(`http://localhost:5000/favorite/${userId}`, {
       params: parameters,
-      headers: headers
+    
     });
   }
 
@@ -149,7 +142,7 @@ export class HttpServiceService {
     const httpOptions = {
       headers: new HttpHeaders({
         "Content-Type": "application/json",
-        Authorization: localStorage.getItem("auth-token")
+     //   Authorization: localStorage.getItem("auth-token")
       })
     };
     return this.http.post<string[]>(
@@ -164,11 +157,11 @@ export class HttpServiceService {
     const httpOptions = {
       headers: new HttpHeaders({
         "Content-Type": "application/json",
-        Authorization: localStorage.getItem("auth-token")
+       // Authorization: localStorage.getItem("auth-token")
       })
     };
     return this.http.post<string[]>(
-      `http://localhost:5000/favorite/delete/${userId}`,
+      `http://localhost:5000/delete/${userId}`,
       newItem,
       httpOptions
     );
@@ -179,7 +172,7 @@ export class HttpServiceService {
     const httpOptions = {
       headers: new HttpHeaders({
         "Content-Type": "application/json",
-        Authorization: localStorage.getItem("auth-token")
+      //  Authorization: localStorage.getItem("auth-token")
       })
     };
     return this.http.post<string[]>(

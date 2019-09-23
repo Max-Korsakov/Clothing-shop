@@ -2,7 +2,7 @@ export interface User {
   id: string;
   email: string;
   password: string;
-  firstName: number;
+  firstName: string;
   newCartItems?: [{ itemId: string; itemSize: string; itemColor: string }];
   cartItems: [{ itemId: string; itemSize: string; itemColor: string }];
   favoriteItems: Array<string>;

@@ -19,13 +19,13 @@
   },
   "scripts": {
     "ng": "ng",
-    "start": "cd client ng serve  --proxy-config proxy.json",
+    "start": "ng serve --proxy-config proxy.json",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "server": "nodemon index",
-    "dev": "concurrently \"npm run server\" \"npm run start\" "
+    "dev": "concurrently \"npm run server\" \"cd ./client & npm run start\" "
   },
   "repository": {
     "type": "git",

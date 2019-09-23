@@ -93,11 +93,11 @@
       </div>
     </div>
     <div *ngIf="catalog as items" class="catalog__card-wrapper">
-      <mat-card *ngFor="let item of items" class="catalog__product-card">
+      <mat-card *ngFor="let item of items" class="catalog__product-card catalog__product-card-item">
         <mat-card-header>
           <div mat-card-avatar class="example-header-image"></div>
-          <mat-card-title>{{ item.name }}</mat-card-title>
-          <mat-card-subtitle>{{ item.brand }}</mat-card-subtitle>
+          <mat-card-title class="item-name">{{ item.name }}</mat-card-title>
+          <mat-card-subtitle class="item-brand">{{ item.brand }}</mat-card-subtitle>
         </mat-card-header>
         <img
           mat-card-image
@@ -106,7 +106,7 @@
           alt="Photo of {{ item.name }}"
         />
         <mat-card-content>
-          <button mat-stroked-button (click)="openItemDetails(item._id)">
+          <button class='datails-button' mat-stroked-button (click)="openItemDetails(item._id)">
             DETAILS
           </button>
           <div class="catalog__product-card-select-wrapper">
@@ -129,7 +129,7 @@
           </div>
         </mat-card-content>
         <mat-card-actions align="center">
-          <mat-card-title>Price: {{ item.price }} $</mat-card-title>
+          <mat-card-title class="item-price">Price: {{ item.price }} $</mat-card-title>
           <button
             mat-stroked-button
             (click)="
@@ -144,12 +144,13 @@
           >
             TO CART
           </button>
-          <button *ngIf="userId" mat-button (click)="addToFavorite(item._id)">
+          <button *ngIf="userId" mat-button class='add-favorite' (click)="addToFavorite(item._id)">
             TO FAVORITE
           </button>
         </mat-card-actions>
       </mat-card>
       <mat-paginator
+      class ='paginator'
         *ngIf="catalog && catalog.length > 0"
         #paginator
         [length]="catalogLength"
@@ -162,7 +163,7 @@
   </div>
 </div>
 
-<ng-template #loader>
+<ng-template class='loader' #loader>
   <div class="catalog__loader-wrapper">
     <app-loader></app-loader>
   </div>

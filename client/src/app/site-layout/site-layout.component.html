@@ -37,11 +37,11 @@
     <div *ngIf = 'searchData' class = 'menu__search-form-result'>
 <div class = 'menu__search-form-result-brand'>Brands: 
   <div *ngIf = '!searchBrands || searchBrands.length === 0' class = 'menu__search-form-result-nofound'>Nothing was found</div>
-  <div (click) = 'findBrandItems(brand)' *ngFor = 'let brand of searchBrands' class = 'menu__search-form-result-brand-item'> {{brand}}</div>
+  <div (click) = 'findBrandItems(brand)' *ngFor = 'let brand of searchBrands' class = 'menu__search-form-result-brand-item'>{{brand}}</div>
   </div>
 <div  class = 'menu__search-form-result-type'>Types: 
     <div *ngIf = '!searchTypes || searchTypes.length === 0' class = 'menu__search-form-result-nofound'>Nothing was found</div>
-  <div (click) = 'findTypeItems(type)' *ngFor = 'let type of searchTypes' class = 'menu__search-form-result-brand-item'> {{type}}</div> </div>
+  <div (click) = 'findTypeItems(type)' *ngFor = 'let type of searchTypes' class = 'menu__search-form-result-brand-item'>{{type}}</div> </div>
 
 
     </div> 

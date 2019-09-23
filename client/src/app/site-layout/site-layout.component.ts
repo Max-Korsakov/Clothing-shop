@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { PopupServiceService } from "../services/popup-service.service";
 import { User } from "../models";
-import { FilterService } from "../services/filter.service";
+
 import { CatalogItem } from "../models";
 import { AuthServiceService } from "../services/auth-service.service";
 import { Router, ActivatedRoute } from "@angular/router";
@@ -23,7 +23,7 @@ export class SiteLayoutComponent implements OnInit {
   id: string;
   constructor(
     private popupService: PopupServiceService,
-    private filterService: FilterService,
+  
     private authService: AuthServiceService,
     private userService: UserServiceService,
     private route: ActivatedRoute,
@@ -56,9 +56,7 @@ public searchTypes;
     })
   }
 
-  public filterCatalogItems(items: CatalogItem[]) {
-    this.filterService.filterItems(items);
-  }
+ 
 
   public openSnackBar(message: string) {
     let config = new MatSnackBarConfig();
@@ -78,8 +76,6 @@ public searchTypes;
             this.authService.login(data.formValue).subscribe(
               () => {
                 this.userService.setActiveUser();
-               // this.activeUser = this.userService.getUserData();
-              //  this.userService.getCartItems(this.activeUser.id)
                 this.openSnackBar(
                   "Hello, " + this.activeUser.firstName
                 );
@@ -98,8 +94,6 @@ public searchTypes;
         this.authService.login(data.formValue).subscribe(
           () => {
             this.userService.setActiveUser();
-           // this.activeUser = this.userService.getUserData();
-          //  this.userService.getCartItems(this.activeUser.id)
             this.openSnackBar(
               "Hello, " + this.activeUser.firstName
             );

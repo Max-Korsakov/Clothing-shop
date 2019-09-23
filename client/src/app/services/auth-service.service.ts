@@ -46,6 +46,7 @@ export class AuthServiceService {
   }
 
   decode(): User {
-    return jwt_decode(localStorage.getItem("auth-token"));
+    if(localStorage) {return jwt_decode(localStorage.getItem("auth-token"));}
+    
   }
 }

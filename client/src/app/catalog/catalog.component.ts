@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { CatalogItem } from "../models";
 
 import { UserServiceService } from "../services/user-service.service";
-import { FilterService } from "../services/filter.service";
+
 import { Router, ActivatedRoute } from "@angular/router";
 import { AuthServiceService } from "../services/auth-service.service";
 import { HttpServiceService } from "../services/http-service.service";
@@ -20,7 +20,7 @@ import { PopupServiceService } from "../services/popup-service.service";
 export class CatalogComponent implements OnInit {
   constructor(
     private userService: UserServiceService,
-    private filterService: FilterService,
+
     private httpService: HttpServiceService,
     private popupService: PopupServiceService,
     private router: Router,
